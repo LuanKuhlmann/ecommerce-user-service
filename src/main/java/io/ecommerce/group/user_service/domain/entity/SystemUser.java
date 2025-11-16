@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Entity
+@Table(name = "system_users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,7 +18,7 @@ import java.util.*;
 public class SystemUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
@@ -42,7 +43,7 @@ public class SystemUser {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_role",
+            name = "system_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )

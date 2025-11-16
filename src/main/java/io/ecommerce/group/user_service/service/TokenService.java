@@ -2,6 +2,7 @@ package io.ecommerce.group.user_service.service;
 
 import io.ecommerce.group.user_service.Util.ExtractNameInitialsUtil;
 import io.ecommerce.group.user_service.domain.dto.response.TokenResponse;
+import io.ecommerce.group.user_service.domain.entity.Role;
 import io.ecommerce.group.user_service.domain.entity.SystemUser;
 import io.ecommerce.group.user_service.domain.entity.Token;
 import io.ecommerce.group.user_service.domain.enums.TokenType;
@@ -59,7 +60,7 @@ public class TokenService {
         JwtClaimsSet claims = buildClaims(systemUser, type, jti, now, expiresAt);
         String tokenValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
-        salvarToken(jti, type, systemUser, stayConnected);
+        salvarToken(jti, type, systemUser.getId() , stayConnected);
 
         return new TokenResponse(tokenValue, expireInSeconds);
     }
@@ -87,7 +88,7 @@ public class TokenService {
 
     private void addRoles(JwtClaimsSet.Builder builder, final SystemUser systemUser) {
         List<String> roles = systemUser.getRoles().stream()
-                .map(r -> r.getName())
+                .map(Role::getName)
                 .collect(Collectors.toList());
 
         builder.claim("roles", roles);
@@ -102,6 +103,6 @@ public class TokenService {
                 .stayConnected(stayConnected)
                 .build();
 
-        tokenRepository.save(token);
+        repository.save(token);
     }
 }

@@ -12,14 +12,7 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public void login(SystemUser user, String password) {
-
-        boolean emailValidado = user.getMail();
-
-        if (!emailValidado) {
-            throw new RuntimeException("Usuário não validado. Por favor, verifique seu e-mail.");
-        }
-
-        passwordValidation(user.getPassword(), password);
+        passwordValidation(user, password);
     }
 
     private void passwordValidation(final SystemUser systemUser, final String senha) {

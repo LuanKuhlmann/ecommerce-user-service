@@ -1,11 +1,25 @@
 spring:
   application:
-  name: user-service
+    name: user-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
 
 jwt:
-  public-key: ${JWT_PUBLIC_KEY_PATH:classpath:certs/public.key}
-  private-key: ${JWT_PRIVATE_KEY_PATH:classpath:certs/private.key}
-  jwk-key: chave-jwk #temporario e sera convertido como variavel de ambiente
+  public-key: classpath:certs/app.pub
+  private-key: classpath:certs/app.key
+  jwk-key: 3772-d69d-B4W80-9e2
   expires-access: 3600
   expires-refresh: 86400
   expires-refresh-long: 604800
