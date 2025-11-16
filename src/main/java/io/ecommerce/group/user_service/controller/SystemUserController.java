@@ -4,31 +4,35 @@ import io.ecommerce.group.user_service.domain.dto.request.RegisterAddressRequest
 import io.ecommerce.group.user_service.domain.dto.request.RegisterUserRequest;
 import io.ecommerce.group.user_service.domain.dto.response.RegisteredAddressResponse;
 import io.ecommerce.group.user_service.domain.dto.response.RegisteredUserResponse;
-import io.ecommerce.group.user_service.service.SystemUserService;
+import io.ecommerce.group.user_service.service.SystemUserAggregation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/v1/user")
 @RequiredArgsConstructor
 public class SystemUserController {
 
-    private final SystemUserService service;
+    private final SystemUserAggregation systemUserAggregation;
 
     @PostMapping("/register")
     public ResponseEntity<RegisteredUserResponse> registerNewUser(@RequestBody @Valid RegisterUserRequest request) {
-        RegisteredUserResponse response = service.registerNewUser(request);
-        return ResponseEntity.ok(response);
+        RegisteredUserResponse response = systemUserAggregation.registerNewUser(request);
+        return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/register/address/{userId}")
-    public ResponseEntity<RegisteredAddressResponse> registerNewAddress(
-            @PathVariable Long userId,
-            @RequestBody @Valid RegisterAddressRequest request) {
-        RegisteredAddressResponse response = service;
+    @PostMapping("/register-courier")
+    public ResponseEntity<RegisteredUserResponse> registerNewCourier(@RequestBody @Valid RegisterUserRequest request) {
+        RegisteredUserResponse response = systemUserAggregation.registerNewCourier(request);
+        return ResponseEntity.ok().body(response);
     }
+
+    @PostMapping("/register-address/{userId}")
+    public ResponseEntity<RegisteredAddressResponse> registerNewUser(@PathVariable String userId, @RequestBody @Valid RegisterAddressRequest request) {
+        RegisteredAddressResponse response = systemUserAggregation.registerAddress(userId, request);
+        return ResponseEntity.ok().body(response);
+    }
+
 }

@@ -1,18 +1,22 @@
 package io.ecommerce.group.user_service.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Entity
+@Table(name = "user_address")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "system_user_id")
@@ -39,82 +43,6 @@ public class Address {
         this.state = state;
         this.addressType = addressType;
         this.principal = principal;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public SystemUser getSystemUser() {
-        return systemUser;
-    }
-
-    public void setSystemUser(SystemUser systemUser) {
-        this.systemUser = systemUser;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getAddressType() {
-        return addressType;
-    }
-
-    public void setAddressType(String addressType) {
-        this.addressType = addressType;
-    }
-
-    public Boolean getPrincipal() {
-        return principal;
-    }
-
-    public void setPrincipal(Boolean principal) {
-        this.principal = principal;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
     }
 
     @PrePersist
